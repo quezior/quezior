@@ -26,7 +26,7 @@
             perspective: 1000px;
         }
 
-        /* Nocny krajobraz Minecrafta w tle */
+        /* Nocny krajobraz Minecrafta */
         body::before {
             content: "";
             position: fixed;
@@ -34,14 +34,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('https://cdn.discordapp.com/attachments/1000000000000000000/mc_night.jpg') no-repeat center center / cover;
+            background: url('bg.jpg') no-repeat center center / cover;
             filter: brightness(0.4) contrast(1.1);
             z-index: -2;
-        }
-
-        /* Zapasowe tło z nocnym Minecraftem (gdyby link wygasł) */
-        body.mc-bg::before {
-            background-image: url('https://raw.githubusercontent.com/AnestisK/Minecraft-Wallpapers/master/Night.jpg');
         }
 
         body::after {
@@ -510,7 +505,7 @@
         .play-main:hover { transform: scale(1.05); background: #e6e6e6; }
     </style>
 </head>
-<body class="mc-bg">
+<body>
 
 <div id="overlay" class="overlay" onclick="enterSite()">
     <div class="overlay-card">
