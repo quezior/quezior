@@ -26,6 +26,7 @@
             perspective: 1000px;
         }
 
+        /* Tło z motywem monet/dolarów zamiast żaby */
         body::before {
             content: "";
             position: fixed;
@@ -33,9 +34,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('https://images.unsplash.com/photo-1559253664-ca249d4608c6?q=80&w=1920&auto=format&fit=crop') no-repeat center center;
+            background: url('https://images.unsplash.com/photo-1559526324-4b87b5e36e44?q=80&w=1920&auto=format&fit=crop') no-repeat center center;
             background-size: cover;
-            filter: grayscale(100%) brightness(0.25) contrast(1.3);
+            filter: grayscale(100%) brightness(0.2) contrast(1.4);
             z-index: -2;
         }
 
@@ -46,7 +47,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.92) 100%);
+            background: radial-gradient(circle at center, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.95) 100%);
             z-index: -1;
         }
 
@@ -153,7 +154,7 @@
             font-weight: 900;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             letter-spacing: -0.5px;
             color: #ffffff;
             text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
@@ -467,14 +468,14 @@
 <div id="overlay" class="overlay" onclick="enterSite()">
     <div class="overlay-card">
         <div class="overlay-icon"><i class="fas fa-play"></i></div>
-        <div class="overlay-title"><i class="fas fa-dollar-sign"></i> <span id="overlay-name">quezior</span></div>
+        <div class="overlay-title"><span id="overlay-name">quezior</span></div>
         <div class="overlay-sub">CLICK ANYWHERE TO ENTER</div>
     </div>
 </div>
 
 <div class="container" id="main-container">
     <div class="top-bar">
-        <div class="logo"><i class="fas fa-dollar-sign"></i> <span id="site-title">quezior</span></div>
+        <div class="logo"><span id="site-title">quezior</span></div>
         <div class="time-badge"><i class="far fa-clock"></i> <span id="clock">00:00:00</span> <span class="lang">PL</span></div>
     </div>
 
@@ -618,7 +619,7 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    // Efekt obracania kart (Tilt 3D)
+    // Obracanie kart (Tilt 3D)
     document.querySelectorAll('.tilt-card').forEach(card => {
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
@@ -628,10 +629,10 @@
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
             
-            const rotateX = ((y - centerY) / centerY) * -10;
-            const rotateY = ((x - centerX) / centerX) * 10;
+            const rotateX = ((y - centerY) / centerY) * -8;
+            const rotateY = ((x - centerX) / centerX) * 8;
             
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.01, 1.01, 1.01)`;
         });
 
         card.addEventListener('mouseleave', () => {
