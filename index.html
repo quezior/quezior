@@ -23,6 +23,7 @@
             padding: 20px;
             position: relative;
             overflow-x: hidden;
+            perspective: 1000px;
         }
 
         body::before {
@@ -49,12 +50,94 @@
             z-index: -1;
         }
 
+        /* Overlay do wejścia */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .overlay-card {
+            background: rgba(10, 10, 12, 0.85);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px 45px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            transform: scale(1);
+            transition: transform 0.3s ease;
+        }
+
+        .overlay-card:hover {
+            transform: scale(1.03);
+        }
+
+        .overlay-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .overlay-title {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .overlay-sub {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #8c90a4;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
         .container {
             width: 100%;
             max-width: 850px;
             display: flex;
             flex-direction: column;
             gap: 15px;
+            transition: filter 0.8s ease, transform 0.8s ease;
+            filter: blur(10px);
+            transform: scale(0.98);
+        }
+
+        .container.active {
+            filter: blur(0);
+            transform: scale(1);
         }
 
         .top-bar {
@@ -70,6 +153,7 @@
             font-weight: 900;
             display: flex;
             align-items: center;
+            gap: 10px;
             letter-spacing: -0.5px;
             color: #ffffff;
             text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
@@ -117,6 +201,8 @@
             border-radius: 20px;
             padding: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.85);
+            transition: transform 0.1s ease, box-shadow 0.3s ease;
+            transform-style: preserve-3d;
         }
 
         .card-header {
@@ -202,13 +288,6 @@
             justify-content: space-between;
             text-decoration: none;
             color: inherit;
-            transition: all 0.3s ease;
-        }
-
-        .telegram-card:hover {
-            border-color: rgba(255, 255, 255, 0.25);
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.9);
         }
 
         .tg-left {
@@ -385,18 +464,26 @@
 </head>
 <body>
 
-<div class="container">
+<div id="overlay" class="overlay" onclick="enterSite()">
+    <div class="overlay-card">
+        <div class="overlay-icon"><i class="fas fa-play"></i></div>
+        <div class="overlay-title"><i class="fas fa-dollar-sign"></i> <span id="overlay-name">quezior</span></div>
+        <div class="overlay-sub">CLICK ANYWHERE TO ENTER</div>
+    </div>
+</div>
+
+<div class="container" id="main-container">
     <div class="top-bar">
-        <div class="logo"><span id="site-title">quezior</span></div>
+        <div class="logo"><i class="fas fa-dollar-sign"></i> <span id="site-title">quezior</span></div>
         <div class="time-badge"><i class="far fa-clock"></i> <span id="clock">00:00:00</span> <span class="lang">PL</span></div>
     </div>
 
     <div class="grid-top">
-        <div class="card">
+        <div class="card tilt-card">
             <div class="card-header"><i class="fab fa-discord"></i> Discord Profile</div>
             <div class="profile-info">
                 <div class="avatar-container">
-                    <img id="discord-avatar" class="avatar" src="https://cdn.discordapp.com/embed/avatars/0.png" alt="Discord Avatar">
+                    <img id="discord-avatar" class="avatar" src="cover.png" alt="Discord Avatar">
                     <div id="discord-status" class="status-dot"></div>
                 </div>
                 <div>
@@ -407,7 +494,7 @@
             <div class="activity-box"><i class="far fa-moon"></i> <span id="discord-activity">No current activity</span></div>
         </div>
 
-        <a id="telegram-link" href="https://t.me/quezior" target="_blank" class="card telegram-card">
+        <a id="telegram-link" href="https://t.me/quezior" target="_blank" class="card telegram-card tilt-card">
             <div class="tg-left">
                 <div class="tg-icon"><i class="fab fa-telegram-plane"></i></div>
                 <div>
@@ -419,7 +506,7 @@
         </a>
     </div>
 
-    <div class="card player-card">
+    <div class="card player-card tilt-card">
         <div class="player-top">
             <div class="player-badge"><i class="fas fa-music"></i> AUDIO PLAYER</div>
             <span style="color: #8c90a4; font-size: 0.8rem; font-weight: 700;">1 / 1</span>
@@ -461,15 +548,31 @@
         siteTitle: "quezior",              
         telegramUsername: "@quezior",       
         telegramLink: "https://t.me/quezior",
-        discordID: "1487892545580044469"
+        discordID: ""
     };
 
     const audio = document.getElementById('audio');
     const playBtn = document.getElementById('playBtn');
+    let entered = false;
 
     document.getElementById('site-title').innerText = CONFIG.siteTitle;
+    document.getElementById('overlay-name').innerText = CONFIG.siteTitle;
     document.getElementById('telegram-username').innerText = CONFIG.telegramUsername;
     document.getElementById('telegram-link').href = CONFIG.telegramLink;
+
+    function enterSite() {
+        if (entered) return;
+        entered = true;
+        document.getElementById('overlay').classList.add('hidden');
+        document.getElementById('main-container').classList.add('active');
+        togglePlay();
+    }
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !entered) {
+            enterSite();
+        }
+    });
 
     function togglePlay() {
         if (audio.paused) {
@@ -507,37 +610,6 @@
         return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
     }
 
-    async function fetchDiscordProfile() {
-        if (!CONFIG.discordID || CONFIG.discordID === "TUTAJ_WKLEJ_SWOJE_ID") return;
-        try {
-            const res = await fetch(`https://api.lanyard.rest/v1/users/${CONFIG.discordID}`);
-            const data = await res.json();
-            
-            if (data.success) {
-                const user = data.data.discord_user;
-                const status = data.data.discord_status;
-                
-                document.getElementById('discord-username').innerText = user.global_name || user.username;
-                if (user.avatar) {
-                    document.getElementById('discord-avatar').src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`;
-                }
-                
-                const statusDot = document.getElementById('discord-status');
-                statusDot.className = `status-dot ${status}`;
-                document.getElementById('discord-status-text').innerText = status;
-
-                const customStatus = data.data.activities.find(a => a.type === 4);
-                if (customStatus && customStatus.state) {
-                    document.getElementById('discord-activity').innerText = customStatus.state;
-                } else {
-                    document.getElementById('discord-activity').innerText = "No current activity";
-                }
-            }
-        } catch (err) {
-            console.error("Błąd pobierania Discorda:", err);
-        }
-    }
-
     function updateClock() {
         const now = new Date();
         document.getElementById('clock').innerText = now.toTimeString().split(' ')[0];
@@ -545,7 +617,27 @@
 
     setInterval(updateClock, 1000);
     updateClock();
-    fetchDiscordProfile();
+
+    // Efekt obracania kart (Tilt 3D)
+    document.querySelectorAll('.tilt-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = ((y - centerY) / centerY) * -10;
+            const rotateY = ((x - centerX) / centerX) * 10;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+        });
+    });
 </script>
 
 </body>
