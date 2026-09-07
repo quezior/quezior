@@ -26,6 +26,7 @@
             perspective: 1000px;
         }
 
+        /* Nostalgiczny nocny krajobraz Minecrafta w tle */
         body::before {
             content: "";
             position: fixed;
@@ -33,9 +34,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('bg.png') no-repeat center center;
+            background: url('https://images.wallpapersden.com/image/download/minecraft-night-minimalist-hd_bWlpZWyUmZqaraWkpJRmZ2VlrWxrZWU.jpg') no-repeat center center;
             background-size: cover;
-            filter: grayscale(100%) brightness(0.25) contrast(1.3);
+            filter: brightness(0.4) contrast(1.1);
             z-index: -2;
         }
 
@@ -46,7 +47,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.95) 100%);
+            background: radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.85) 100%);
             z-index: -1;
         }
 
@@ -56,7 +57,7 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.65);
             backdrop-filter: blur(25px);
             -webkit-backdrop-filter: blur(25px);
             z-index: 9999;
@@ -549,7 +550,6 @@
         </a>
     </div>
 
-    <!-- Sekcja pokazująca czego aktualnie słuchasz na Spotify przez Discorda -->
     <div class="card tilt-card">
         <div class="card-header"><i class="fab fa-spotify" style="color: #1db954;"></i> Listening to Spotify</div>
         <div class="spotify-info">
@@ -709,7 +709,6 @@
                     activityBox.innerText = 'No current activity';
                 }
 
-                // Aktualizacja Spotify
                 if (spotify) {
                     document.getElementById('spotify-song').innerText = spotify.song;
                     document.getElementById('spotify-artist').innerText = `by ${spotify.artist}`;
